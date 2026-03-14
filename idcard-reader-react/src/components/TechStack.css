@@ -1,0 +1,41 @@
+.tech-section {
+  padding: 96px 6%;
+  background: var(--gray-900);
+  color: var(--white);
+}
+
+.tech-tag   { background: #1e3a8a; color: #93c5fd; }
+.tech-title { color: var(--white); }
+.tech-sub   { color: #94a3b8; }
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.tech-card {
+  background: #1f2937;
+  border: 1px solid #374151;
+  border-radius: var(--radius);
+  padding: 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  transition: border-color .2s;
+}
+.tech-card:hover { border-color: var(--blue); }
+
+.tech-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(37,99,235,.13);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.tech-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: .3rem; color: var(--white); }
+.tech-card p  { font-size: .85rem; color: #9ca3af; line-height: 1.5; }

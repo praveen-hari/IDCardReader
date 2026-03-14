@@ -1,0 +1,51 @@
+# ── Node / React ─────────────────────────────────────────────
+node_modules/
+dist/
+dist-ssr/
+*.local
+.env
+.env.*
+!.env.example
+
+# Vite cache
+.vite/
+idcard-reader-react/.vite/
+
+# ── .NET / C# ─────────────────────────────────────────────────
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+*.nupkg
+*.snupkg
+*.nuget/
+packages/
+!packages/repositories.config
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ── OS ────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Logs ─────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ── Editor ───────────────────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
