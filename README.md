@@ -1,40 +1,122 @@
 # IDCardReader
-ID Card reader using Emgu and Tesseract OCR engine.
 
-# Image processing:
+A Windows Forms desktop application that extracts text from ID card images using computer vision and OCR (Optical Character Recognition).
 
-We need to apply some image processing to the image before OCR the image, please refer the below link to improve the OCR accuracy by applying the image processing to the input image.
-https://github.com/tesseract-ocr/tesseract/wiki/ImproveQuality
+---
 
-I am going to use the .Net library Emgu to apply image processing to the image, Emgu is a cross platform .Net wrapper to the OpenCV.
-# Rescaling:
+## Features
 
-Tesseract works best on images which have a DPI of at least 300 dpi, so we need to rescale input image to get the accurate result.
+- Load any ID card image (JPG, PNG, JPEG)
+- Real-time image preview with adjustable binarization threshold
+- Automatic image preprocessing to maximize OCR accuracy
+- Displays extracted text instantly in the UI
+
+---
+
+## Tech Stack
+
+| Library | Purpose |
+|---|---|
+| [Emgu CV](http://www.emgu.com/) | .NET wrapper for OpenCV — image processing |
+| [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) | Text recognition engine (via Emgu) |
+| Windows Forms (.NET) | Desktop UI framework |
+
+---
+
+## How It Works
+
+### 1. Load an Image
+On startup, a default sample ID card (`Data/idcard.jpg`) is loaded automatically. You can also click **BrowseImage** to load your own image file.
+
+### 2. Image Preprocessing
+Before OCR is performed, the image goes through several processing steps to improve accuracy:
+
+#### Rescaling
+Tesseract performs best on images with at least 300 DPI. The image is scaled up 2× using linear interpolation:
+```csharp
 imgResize = sourceImage.Resize(2, Inter.Linear);
-Binarisation:
+```
 
+#### Smoothing
+A Gaussian blur is applied to reduce noise:
+```csharp
+.SmoothGaussian(5)
+```
 
-This is converting an image to black and white
-img_gray = imgResize.Convert<Gray, Byte>().SmoothGaussian(5).ThresholdBinary(new Gray(trackBar1.Value), new Gray(255));
+#### Binarization (Black & White Conversion)
+The image is converted to black and white using a threshold value. You can adjust this threshold using the **Threshold** trackbar in the UI to get the best result for your image:
+```csharp
+img_gray = imgResize.Convert<Gray, Byte>()
+                    .SmoothGaussian(5)
+                    .ThresholdBinary(new Gray(trackBar1.Value), new Gray(255));
+```
+> If the threshold is set to 0, binarization is skipped and only smoothing is applied.
 
+For more tips on improving OCR quality, see the [Tesseract documentation](https://github.com/tesseract-ocr/tesseract/wiki/ImproveQuality).
 
-After Binarisation
-
-
-# OCR the Image:
-
-The Emgu has the built it API to call the tesseract OCR, so here I have utilized the API to apply the OCR to the image.
-
-using Emgu.CV.OCR;
-
-Initialize the OCR
-
+### 3. OCR
+The preprocessed image is passed to the Tesseract engine, which recognizes and returns the text:
+```csharp
+// Initialize
 _ocr = new Tesseract(Path.GetFullPath("../../Data/"), "eng", OcrEngineMode.TesseractLstmCombined);
 
-Applying the OCR:
-
+// Run OCR
 _ocr.SetImage(img_gray);
 _ocr.Recognize();
 string text = _ocr.GetUTF8Text();
+```
+The result is displayed in the text panel on the right side of the window.
+
+---
+
+## UI Overview
+
+| Control | Description |
+|---|---|
+| **BrowseImage** button | Opens a file dialog to load a custom image |
+| **Threshold** trackbar | Adjusts the binarization threshold (0–225); preview updates in real time |
+| **Image preview** | Displays the current image with the selected threshold applied |
+| **DoOCR** button | Runs OCR on the current image and shows the extracted text |
+| **Text panel** | Displays the raw text extracted by Tesseract |
+
+---
+
+## Project Structure
+
+```
+IDCardReader/
+├── Data/
+│   ├── idcard.jpg          # Sample ID card image
+│   └── tessdata/           # Tesseract language data files (English)
+├── Form1.cs                # Main form logic (image processing & OCR)
+├── Form1.Designer.cs       # Auto-generated UI layout
+├── Program.cs              # Application entry point
+├── IDCardReader.csproj     # Project file
+└── packages.config         # NuGet package dependencies
+```
+
+---
+
+## Prerequisites
+
+- Windows OS
+- Visual Studio (2017 or later recommended)
+- .NET Framework
+- NuGet packages (restored automatically):
+  - `Emgu.CV`
+  - `Emgu.CV.UI`
+
+---
+
+## Getting Started
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/IDCardReader.git
+   ```
+2. Open `IDCardReader.sln` in Visual Studio.
+3. Restore NuGet packages (Visual Studio will prompt you, or run `nuget restore`).
+4. Build and run the project (`F5`).
+5. Use **BrowseImage** to load an ID card image, adjust the **Threshold** slider if needed, then click **DoOCR** to extract the text.
 
 
