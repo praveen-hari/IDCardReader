@@ -1,6 +1,6 @@
 # IDCardReader
 
-A Windows Forms desktop application that extracts text from ID card images using computer vision and OCR (Optical Character Recognition).
+**IDCardReader** is a Windows Forms desktop application that extracts text from ID card images using computer vision and OCR (Optical Character Recognition). It lets you load any ID card image, preprocess it (scale, blur, binarize) to maximize recognition accuracy, and then display the extracted text — all from a simple point-and-click interface.
 
 ---
 
@@ -17,9 +17,10 @@ A Windows Forms desktop application that extracts text from ID card images using
 
 | Library | Purpose |
 |---|---|
-| [Emgu CV](http://www.emgu.com/) | .NET wrapper for OpenCV — image processing |
+| [Emgu CV](http://www.emgu.com/) (v3.3.0) | .NET wrapper for OpenCV — image processing |
 | [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) | Text recognition engine (via Emgu) |
-| Windows Forms (.NET) | Desktop UI framework |
+| [ZedGraph](https://github.com/ZedGraph/ZedGraph) | Charting library (included as a dependency) |
+| Windows Forms (.NET Framework 4.5) | Desktop UI framework |
 
 ---
 
@@ -91,7 +92,8 @@ IDCardReader/
 ├── Form1.cs                # Main form logic (image processing & OCR)
 ├── Form1.Designer.cs       # Auto-generated UI layout
 ├── Program.cs              # Application entry point
-├── IDCardReader.csproj     # Project file
+├── index.html              # Standalone project landing/demo page
+├── IDCardReader.csproj     # Project file (.NET Framework 4.5)
 └── packages.config         # NuGet package dependencies
 ```
 
@@ -100,11 +102,12 @@ IDCardReader/
 ## Prerequisites
 
 - Windows OS
-- Visual Studio (2017 or later recommended)
-- .NET Framework
+- Visual Studio 2017 or later
+- .NET Framework 4.5
 - NuGet packages (restored automatically):
-  - `Emgu.CV`
+  - `EMGU.CV` v3.3.0
   - `Emgu.CV.UI`
+  - `ZedGraph` v5.1.5
 
 ---
 
@@ -112,7 +115,7 @@ IDCardReader/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/IDCardReader.git
+   git clone https://github.com/praveen-hari/IDCardReader.git
    ```
 2. Open `IDCardReader.sln` in Visual Studio.
 3. Restore NuGet packages (Visual Studio will prompt you, or run `nuget restore`).
